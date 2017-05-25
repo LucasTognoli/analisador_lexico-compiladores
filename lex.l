@@ -2,7 +2,9 @@
 
 %option nounput yylineno
 %option caseless
-
+%{
+#include "y.tab.h"  // to get the token types that we return
+%}
 %%
 
  /* variable name error*/
@@ -83,7 +85,7 @@
 
 
  /* identifiers */
-[a-zA-Z][_a-zA-Z0-9]*	return 4;
+[a-zA-Z][_a-zA-Z0-9]*	return id;
 
 
  /* out of range */

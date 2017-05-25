@@ -125,3 +125,7 @@ main() {
 	} while (!feof(yyin));
 	
 }
+
+void yyerror(char *s) {
+	exit(-1);
+}
