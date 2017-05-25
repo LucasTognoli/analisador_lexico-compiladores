@@ -50,7 +50,7 @@ extern int yydebug;
      id = 259,
      begin = 260,
      end = 261,
-     const = 262,
+     t_const = 262,
      var = 263,
      real = 264,
      integer = 265,
@@ -61,7 +61,7 @@ extern int yydebug;
      t_then = 270,
      numero_int = 271,
      numero_real = 272,
-     else = 273
+     t_else = 273
    };
 #endif
 /* Tokens.  */
@@ -69,7 +69,7 @@ extern int yydebug;
 #define id 259
 #define begin 260
 #define end 261
-#define const 262
+#define t_const 262
 #define var 263
 #define real 264
 #define integer 265
@@ -80,7 +80,7 @@ extern int yydebug;
 #define t_then 270
 #define numero_int 271
 #define numero_real 272
-#define else 273
+#define t_else 273
 
 
 

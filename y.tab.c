@@ -66,9 +66,10 @@
 #line 1 "translate.y"
 
 #include <stdio.h>
+#include "windows.h"
 
 /* Line 371 of yacc.c  */
-#line 72 "y.tab.c"
+#line 73 "y.tab.c"
 
 # ifndef YY_NULL
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -108,7 +109,7 @@ extern int yydebug;
      id = 259,
      begin = 260,
      end = 261,
-     const = 262,
+     t_const = 262,
      var = 263,
      real = 264,
      integer = 265,
@@ -119,7 +120,7 @@ extern int yydebug;
      t_then = 270,
      numero_int = 271,
      numero_real = 272,
-     else = 273
+     t_else = 273
    };
 #endif
 /* Tokens.  */
@@ -127,7 +128,7 @@ extern int yydebug;
 #define id 259
 #define begin 260
 #define end 261
-#define const 262
+#define t_const 262
 #define var 263
 #define real 264
 #define integer 265
@@ -138,7 +139,7 @@ extern int yydebug;
 #define t_then 270
 #define numero_int 271
 #define numero_real 272
-#define else 273
+#define t_else 273
 
 
 
@@ -170,7 +171,7 @@ int yyparse ();
 /* Copy the second part of user declarations.  */
 
 /* Line 390 of yacc.c  */
-#line 174 "y.tab.c"
+#line 175 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -482,13 +483,13 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    10,    10,    12,    14,    16,    17,    19,    20,    22,
-      23,    26,    28,    29,    31,    32,    34,    35,    37,    39,
-      40,    42,    44,    46,    47,    49,    51,    52,    54,    55,
-      57,    58,    60,    61,    62,    63,    64,    65,    67,    69,
-      70,    71,    72,    73,    76,    78,    79,    80,    82,    83,
-      85,    86,    89,    91,    92,    94,    95,    97,    98,    99,
-     101,   102
+       0,    12,    12,    16,    18,    20,    21,    23,    24,    26,
+      27,    30,    32,    33,    35,    36,    38,    39,    41,    43,
+      44,    46,    48,    50,    51,    53,    55,    56,    58,    59,
+      61,    62,    64,    65,    66,    67,    68,    69,    71,    73,
+      74,    75,    76,    77,    80,    82,    83,    84,    86,    87,
+      89,    90,    93,    95,    96,    98,    99,   101,   102,   103,
+     105,   106
 };
 #endif
 
@@ -497,14 +498,14 @@ static const yytype_uint8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "program", "id", "begin", "end", "const",
-  "var", "real", "integer", "procedure", "read", "write", "t_if", "t_then",
-  "numero_int", "numero_real", "else", "';'", "'.'", "'='", "':'", "','",
-  "'('", "')'", "'<'", "'>'", "'+'", "'-'", "'*'", "'/'", "$accept",
-  "prog", "corpo", "dc", "dc_c", "dc_v", "t_var", "vars", "m_var", "dc_p",
-  "param", "l_par", "m_par", "corpo_p", "dc_loc", "l_arg", "args", "m_id",
-  "pfalsa", "cmds", "cmd", "cond", "rel", "exp", "op_un", "ou_ter",
-  "op_ad", "termo", "m_fator", "op_mul", "fator", "num", YY_NULL
+  "$end", "error", "$undefined", "program", "id", "begin", "end",
+  "t_const", "var", "real", "integer", "procedure", "read", "write",
+  "t_if", "t_then", "numero_int", "numero_real", "t_else", "';'", "'.'",
+  "'='", "':'", "','", "'('", "')'", "'<'", "'>'", "'+'", "'-'", "'*'",
+  "'/'", "$accept", "prog", "corpo", "dc", "dc_c", "dc_v", "t_var", "vars",
+  "m_var", "dc_p", "param", "l_par", "m_par", "corpo_p", "dc_loc", "l_arg",
+  "args", "m_id", "pfalsa", "cmds", "cmd", "cond", "rel", "exp", "op_un",
+  "ou_ter", "op_ad", "termo", "m_fator", "op_mul", "fator", "num", YY_NULL
 };
 #endif
 
@@ -1453,9 +1454,17 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-      
+        case 2:
 /* Line 1792 of yacc.c  */
-#line 1459 "y.tab.c"
+#line 12 "translate.y"
+    { 
+					printf("program");
+				   }
+    break;
+
+
+/* Line 1792 of yacc.c  */
+#line 1468 "y.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1687,7 +1696,7 @@ yyreturn:
 
 
 /* Line 2055 of yacc.c  */
-#line 103 "translate.y"
+#line 107 "translate.y"
 
 /* programs */
 
@@ -1711,5 +1720,11 @@ main() {
 	do {
 		yyparse();
 	} while (!feof(yyin));
-	
+
+	Sleep(10000);
+		
+}
+
+void yyerror(char *s) {
+
 }

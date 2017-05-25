@@ -1,6 +1,6 @@
 %{
 #include <stdio.h>
-#include "windows.h"
+#include <windows.h>
 %}
 /* declaration */
 %token program id begin end t_const var real integer 
