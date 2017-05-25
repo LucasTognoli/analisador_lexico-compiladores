@@ -13,7 +13,7 @@ extern char* yytext;
 char *names[] = {NULL, "reserved word", "comment", "type", "identifier", "num_shortint", "num_longint", "num_int_out_of_range",
 				 "simb_assignment", "simb_not_equal", "simb_colon", "simb_semicolon", "simb_comma", "simb_point",
 				 "simb_open_parenthesis", "simb_close_parenthesis", "simb_star", "simb_slash", "simb_backslash", "simb_plus",
-				 "simb_minus", "simb_percentage", "simb_equal", "simb_single_quote", "simb_quote", "simb_less", "simb_greater", "error", "num_smallint"};
+				 "simb_minus", "simb_percentage", "simb_equal", "simb_single_quote", "simb_quote", "simb_less", "simb_greater", "error", "num_smallint", "int_subrange"};
 
 int main(void) 
 {

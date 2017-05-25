@@ -1,0 +1,128 @@
+program - program
+
+a1 - identifier
+
+( - simb_open_parenthesis
+
+input - identifier
+
+, - simb_comma
+
+output - identifier
+
+) - simb_close_parenthesis
+
+; - simb_semicolon
+
+uses - uses
+
+dayio - identifier
+
+; - simb_semicolon
+
+const - const
+
+notscheduled - identifier
+
+= - simb_equal
+
+' - simb_single_quote
+
+' - simb_single_quote
+
+; - simb_semicolon
+
+employeemaxlen - identifier
+
+= - simb_equal
+
+10 - num_shortint
+
+. - simb_point
+
+. - simb_point
+
+9 - num_shortint
+
+; - simb_semicolon
+
+firsthour - identifier
+
+= - simb_equal
+
+2147483648 - num_int_out_of_range
+
+; - simb_semicolon
+
+lasthour - identifier
+
+= - simb_equal
+
+-2147483648 - num_longint
+
+; - simb_semicolon
+
+pastlasthour - identifier
+
+= - simb_equal
+
+-41474836612324 - num_int_out_of_range
+
+; - simb_semicolon
+
+tabledaywidth - identifier
+
+= - simb_equal
+
+-21474 - num_smallint
+
+; - simb_semicolon
+
+type - type
+
+employeetype - identifier
+
+= - simb_equal
+
+string[ - error
+
+employeemaxlen - identifier
+
+; - simb_semicolon
+
+hourtype - identifier
+
+= - simb_equal
+
+8..17 - int_subrange
+
+; - simb_semicolon
+
+scheduletype - identifier
+
+= - simb_equal
+
+array - array
+
+[ - error
+
+hourtype - identifier
+
+, - simb_comma
+
+daytype - identifier
+
+of - of
+
+employeetype - identifier
+
+; - simb_semicolon
+
+hourscantype - identifier
+
+= - simb_equal
+
+8..18 - int_subrange
+
+; - simb_semicolon
+

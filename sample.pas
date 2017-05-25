@@ -6,7 +6,7 @@ PROGRAM a1 (input,output);
         NotScheduled = '        ';
 
         { Max length of an employee name. }
-        EmployeeMaxLen = -11;
+        EmployeeMaxLen = 10. .9;
 
         { Hours in a day. }
         FirstHour = 2147483648;
