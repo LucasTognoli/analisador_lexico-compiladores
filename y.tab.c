@@ -68,8 +68,10 @@
 #include <stdio.h>
 #include "windows.h"
 
+FILE *output;
+
 /* Line 371 of yacc.c  */
-#line 73 "y.tab.c"
+#line 75 "y.tab.c"
 
 # ifndef YY_NULL
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -171,7 +173,7 @@ int yyparse ();
 /* Copy the second part of user declarations.  */
 
 /* Line 390 of yacc.c  */
-#line 175 "y.tab.c"
+#line 177 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -483,13 +485,13 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    12,    12,    16,    18,    20,    21,    23,    24,    26,
-      27,    30,    32,    33,    35,    36,    38,    39,    41,    43,
-      44,    46,    48,    50,    51,    53,    55,    56,    58,    59,
-      61,    62,    64,    65,    66,    67,    68,    69,    71,    73,
-      74,    75,    76,    77,    80,    82,    83,    84,    86,    87,
-      89,    90,    93,    95,    96,    98,    99,   101,   102,   103,
-     105,   106
+       0,    14,    14,    19,    21,    23,    24,    26,    27,    29,
+      30,    33,    35,    36,    38,    39,    41,    42,    44,    46,
+      47,    49,    51,    53,    54,    56,    58,    59,    61,    62,
+      64,    65,    67,    68,    69,    70,    71,    72,    74,    76,
+      77,    78,    79,    80,    83,    85,    86,    87,    89,    90,
+      92,    93,    96,    98,    99,   101,   102,   104,   105,   106,
+     108,   109
 };
 #endif
 
@@ -1456,15 +1458,16 @@ yyreduce:
     {
         case 2:
 /* Line 1792 of yacc.c  */
-#line 12 "translate.y"
+#line 14 "translate.y"
     { 
-					printf("program");
+					printf("program\n");
+					fprintf(output, "program");
 				   }
     break;
 
 
 /* Line 1792 of yacc.c  */
-#line 1468 "y.tab.c"
+#line 1471 "y.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1696,7 +1699,7 @@ yyreturn:
 
 
 /* Line 2055 of yacc.c  */
-#line 107 "translate.y"
+#line 110 "translate.y"
 
 /* programs */
 
@@ -1707,22 +1710,43 @@ extern int yyparse();
 extern FILE *yyin;
 
 main() {
-	// open a file handle to a particular file:
+
+	// open output file
+	printf("Testando...\n");
+
+	output = fopen("log.txt", "w");
+	if (!output) {
+		return -1;
+	}
+	fprintf(output, "oi");
+
+	// open input file
 	FILE *myfile = fopen("sample.pas", "r");
-	// make sure it is valid:
 	if (!myfile) {
 		return -1;
 	}
 	// set lex to read from it instead of defaulting to STDIN:
 	yyin = myfile;
+
+	// testing lex
+	int in = yylex();
+	
+	while (in) {
+		fprintf(output, "in: %d\n", in);
+		printf("in: %d\n", in);
+		in = yylex();
+	}
 	
 	// parse through the input until there is no more:
+	int i = 0;
 	do {
+		i++;
+		printf("%d\n", i);
 		yyparse();
 	} while (!feof(yyin));
 
 	Sleep(10000);
-		
+
 }
 
 void yyerror(char *s) {

@@ -1,6 +1,8 @@
 %{
 #include <stdio.h>
 #include "windows.h"
+
+FILE *output;
 %}
 /* declaration */
 %token program id begin end t_const var real integer 
@@ -10,7 +12,8 @@
 %% 
 /* rules */
 prog	: program id ';' corpo '.' { 
-					printf("program");
+					printf("program\n");
+					fprintf(output, "program");
 				   }
 
 corpo	: dc begin cmds end ;
@@ -114,22 +117,43 @@ extern int yyparse();
 extern FILE *yyin;
 
 main() {
-	// open a file handle to a particular file:
+
+	// open output file
+	printf("Testando...\n");
+
+	output = fopen("log.txt", "w");
+	if (!output) {
+		return -1;
+	}
+	fprintf(output, "oi");
+
+	// open input file
 	FILE *myfile = fopen("sample.pas", "r");
-	// make sure it is valid:
 	if (!myfile) {
 		return -1;
 	}
 	// set lex to read from it instead of defaulting to STDIN:
 	yyin = myfile;
+
+	// testing lex
+	int in = yylex();
+	
+	while (in) {
+		fprintf(output, "in: %d\n", in);
+		printf("in: %d\n", in);
+		in = yylex();
+	}
 	
 	// parse through the input until there is no more:
+	int i = 0;
 	do {
+		i++;
+		printf("%d\n", i);
 		yyparse();
 	} while (!feof(yyin));
 
 	Sleep(10000);
-		
+
 }
 
 void yyerror(char *s) {
