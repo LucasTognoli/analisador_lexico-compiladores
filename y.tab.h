@@ -47,45 +47,63 @@ extern int yydebug;
       know about them.  */
    enum yytokentype {
      program = 258,
-     id = 259,
-     begin = 260,
-     end = 261,
-     t_const = 262,
-     var = 263,
-     real = 264,
-     integer = 265,
-     procedure = 266,
-     read = 267,
-     write = 268,
-     t_if = 269,
-     t_then = 270,
-     numero_int = 271,
-     numero_real = 272,
-     t_else = 273
+     t_const = 259,
+     var = 260,
+     procedure = 261,
+     read = 262,
+     write = 263,
+     t_if = 264,
+     t_then = 265,
+     numero_int = 266,
+     numero_real = 267,
+     t_else = 268,
+     REAL = 269,
+     INTEGER = 270,
+     T_CONT = 271,
+     ID = 272,
+     PROGRAM = 273,
+     T_BEGIN = 274,
+     END = 275,
+     VAR = 276
    };
 #endif
 /* Tokens.  */
 #define program 258
-#define id 259
-#define begin 260
-#define end 261
-#define t_const 262
-#define var 263
-#define real 264
-#define integer 265
-#define procedure 266
-#define read 267
-#define write 268
-#define t_if 269
-#define t_then 270
-#define numero_int 271
-#define numero_real 272
-#define t_else 273
+#define t_const 259
+#define var 260
+#define procedure 261
+#define read 262
+#define write 263
+#define t_if 264
+#define t_then 265
+#define numero_int 266
+#define numero_real 267
+#define t_else 268
+#define REAL 269
+#define INTEGER 270
+#define T_CONT 271
+#define ID 272
+#define PROGRAM 273
+#define T_BEGIN 274
+#define END 275
+#define VAR 276
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+typedef union YYSTYPE
+{
+/* Line 2058 of yacc.c  */
+#line 14 "translate.y"
+
+               int number;
+               char *string;
+	       float real;
+       
+
+/* Line 2058 of yacc.c  */
+#line 106 "y.tab.h"
+} YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

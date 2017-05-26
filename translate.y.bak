@@ -1,41 +1,66 @@
 %{
 #include <stdio.h>
 #include "windows.h"
-
+#include <stdlib.h>
+#include <stddef.h>
+#include <ctype.h>
+#define YYSTYPE double
 FILE *output;
 %}
 /* declaration */
-%token program id begin end t_const var real integer 
+%token program t_const var
 %token procedure read write t_if t_then numero_int numero_real t_else
+
+%union
+       {
+               int number;
+               char *string;
+	       float real;
+       };
+
+%token <real> REAL
+%token <number> INTEGER
+%token <number> T_CONT
+%token <string> ID
+%token <string> PROGRAM
+%token <string> T_BEGIN
+%token <string> END
+%token <string> VAR
+
+
+
 %start prog
 
 %% 
 /* rules */
-prog	: program id ';' corpo '.' { 
+proger	: PROGRAM  {printf("program\n");}
+
+
+prog	: PROGRAM ID ';' corpo '.' { 
 					printf("program\n");
 					fprintf(output, "program");
 				   }
 
-corpo	: dc begin cmds end ;
+corpo	: dc T_BEGIN cmds END ;
 
 dc	: dc_c dc_v dc_p ;
 
-dc_c	: t_const id '=' num ';' dc_c
+dc_c	: t_const ID '=' num ';' dc_c
 	| ;
 
 dc_v	: var vars ':' t_var ';' dc_v
 	| ;
 
-t_var	: real
-	| integer
+t_var	: REAL
+	| INTEGER
 	;
 
-vars	: id m_var ;
+vars	: ID m_var ;
 
 m_var	: ',' vars
 	| ;
 
-dc_p	: procedure id param ';' corpo_p dc_p
+dc_p	: procedure ID param ';' corpo_p dc_p
 	| ;
 
 param	: '(' l_par ')'
@@ -46,14 +71,14 @@ l_par	: vars ':' t_var m_par ;
 m_par	: ';' l_par
 	| ;
 
-corpo_p	: dc_loc begin cmds end ';' ;
+corpo_p	: dc_loc T_BEGIN cmds END ';' ;
 
 dc_loc	: dc_v ;
 
 l_arg	: '(' args ')'
 	| ;
 
-args	: id m_id ;
+args	: ID m_id ;
 
 m_id	: ';' args
 	| ;
@@ -67,9 +92,9 @@ cmds	: cmd ';' cmds
 cmd	: read '(' vars ')'
 	| write '(' vars ')'
 	| t_if cond t_then cmd pfalsa
-	| id ':' '=' exp
-	| id l_arg
-	| begin cmds end ;
+	| ID ':' '=' exp
+	| ID l_arg
+	| T_BEGIN cmds END ;
 
 cond	: exp rel exp ;
 
@@ -101,7 +126,7 @@ m_fator	: op_mul fator m_fator
 op_mul	: '*'
 	| '/' ;
 
-fator	: id
+fator	: ID
 	| num
 	| '(' exp ')' ;
 
@@ -125,7 +150,7 @@ main() {
 	if (!output) {
 		return -1;
 	}
-	fprintf(output, "oi");
+	fprintf(output, "oi\n");
 
 	// open input file
 	FILE *myfile = fopen("sample.pas", "r");
@@ -138,7 +163,8 @@ main() {
 	// testing lex
 	int in = yylex();
 	
-	while (in) {
+	/*while (in) {
+		fprintf(output, "in: %d\n", in);
 		printf("in: %d\n", in);
 		in = yylex();
 	}
@@ -149,12 +175,13 @@ main() {
 		i++;
 		printf("%d\n", i);
 		yyparse();
-	} while (!feof(yyin));
+	} while (!feof(yyin));*/
+	yyparse();
 
 	Sleep(10000);
 
 }
 
 void yyerror(char *s) {
-
+	fprintf(stderr,"error: %s\n",s);
 }

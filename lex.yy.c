@@ -1426,12 +1426,12 @@ return 27;
 case 2:
 YY_RULE_SETUP
 #line 14 "lex.l"
-return begin;
+return T_BEGIN;
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 15 "lex.l"
-return end;
+return END;
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
@@ -1456,7 +1456,7 @@ return procedure;
 case 8:
 YY_RULE_SETUP
 #line 20 "lex.l"
-return program;
+return PROGRAM;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
@@ -1498,7 +1498,7 @@ return 2;
 case 16:
 YY_RULE_SETUP
 #line 34 "lex.l"
-return id;
+return ID;
 	YY_BREAK
 /* out of range */
 case 17:

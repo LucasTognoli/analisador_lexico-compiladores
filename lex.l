@@ -4,6 +4,7 @@
 %option caseless
 %{
 #include "y.tab.h"  // to get the token types that we return
+extern double yylval;
 %}
 %%
 
@@ -11,13 +12,13 @@
 [0-9]+[_a-zA-Z]+[_a-zA-Z0-9]*    return 27;
 
  /* reserved words */
-"begin"			return begin;
-"end"			return end;
+"begin"			return T_BEGIN;
+"end"			return END;
 "if"			return t_if;
 "then"			return t_then;
 "else"			return t_else;
 "procedure"		return procedure;
-"program"		return program;
+"program"		return PROGRAM;
 "read"			return read;
 "write"			return write;
 "var"			return var;
@@ -31,7 +32,7 @@
 
 
  /* identifiers */
-[a-zA-Z][_a-zA-Z0-9]*	return id;
+[a-zA-Z][_a-zA-Z0-9]*	return ID;
 
 
  /* out of range */
