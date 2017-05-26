@@ -22,7 +22,7 @@ prog	: program id ';' corpo '.' { printf("program\n");
 				   }
 	;
 
-corpo	: dc begin cmds end ;
+corpo	: dc begin cmds end { printf("\nprocessed corpo\n"); } ;
 
 dc	: dc_c dc_v dc_p ;
 
@@ -67,26 +67,26 @@ m_id	: ';' args
 pfalsa	: t_else cmd
 	| ;
 
-cmds	: cmd ';' cmds
+cmds	: cmd ';' cmds			{ printf("\nprocessed cmds\n"); } ;
 	| ;
 
-cmd	: read '(' vars ')'
-	| write '(' vars ')'
-	| t_if cond t_then cmd pfalsa
-	| id ':' '=' exp
-	| id l_arg
-	| begin cmds end ;
+cmd	: read '(' vars ')'		{ printf("\nprocessed cmd read\n"); } ;
+	| write '(' vars ')'		{ printf("\nprocessed cmd write\n"); } ;
+	| t_if cond t_then cmd pfalsa	{ printf("\nprocessed cmd if\n"); } ;
+	| id ':' '=' exp		{ printf("\nprocessed cmd attr\n"); } ;
+	| id l_arg			{ printf("\nprocessed id l_arg\n"); } ;
+	| begin cmds end 		{ printf("\nprocessed begin\n"); } ;
 
-cond	: exp rel exp ;
+cond	: exp rel exp 			{ printf("\nprocessed cond\n"); } ;
 
-rel	: '='
-	| '<' '>'
-	| '>' '='
-	| '>'
-	| '<'
+rel	: '='				{ //printf("\nprocessed rel eq\n"); } ;
+	| '<' '>'			{ //printf("\nprocessed rel uneq\n"); } ;
+	| '>' '='			{ //printf("\nprocessed rel greq\n"); } ;
+	| '>'				{ //printf("\nprocessed rel gr\n"); } ;
+	| '<'				{ //printf("\nprocessed rel less\n"); } ;
 	;
 
-exp	: termo ou_ter ;
+exp	: termo ou_ter			{ printf("\nprocessed exp\n"); } ;
 
 op_un	: '+'
 	| '-'
@@ -99,18 +99,18 @@ op_ad	: '+'
 	| '-'
 	;
 
-termo	: op_un fator m_fator
+termo	: op_un fator m_fator		{ printf("\nprocessed termo\n"); } ;
 
-m_fator	: op_mul fator m_fator
-	| ;
+m_fator	: op_mul fator m_fator		{ //printf("\nprocessed m_fator full\n"); } ;
+	| 				{ //printf("\nprocessed m_fator empty\n"); } ;
 
-op_mul	: '*'
-	| '/'
+op_mul	: '*'				{ //printf("\nprocessed op_mul mul\n"); } ;
+	| '/'				{ //printf("\nprocessed op_mul div\n"); } ;
 	;
 
-fator	: id
-	| num
-	| '(' exp ')'
+fator	: id				{ //printf("\nprocessed fator id\n"); } ;
+	| num				{ //printf("\nprocessed fator num\n"); } ;
+	| '(' exp ')'			{ //printf("\nprocessed exp\n"); } ;
 	;
 
 num	: numero_int
@@ -144,9 +144,8 @@ main() {
 
 	// testing lex
 	// yyparse might not work if uncommented
-	
-	int in = yylex();
 	/*
+	int in = yylex();
 	while (in) {
 		fprintf(output, "in: %d\n", in);
 		printf("in: %d\n", in);

@@ -1464,9 +1464,141 @@ yyreduce:
 				   }
     break;
 
+  case 3:
+/* Line 1792 of yacc.c  */
+#line 25 "translate.y"
+    { printf("\nprocessed corpo\n"); }
+    break;
+
+  case 32:
+/* Line 1792 of yacc.c  */
+#line 73 "translate.y"
+    { printf("\nprocessed cmd read\n"); }
+    break;
+
+  case 33:
+/* Line 1792 of yacc.c  */
+#line 74 "translate.y"
+    { printf("\nprocessed cmd write\n"); }
+    break;
+
+  case 34:
+/* Line 1792 of yacc.c  */
+#line 75 "translate.y"
+    { printf("\nprocessed cmd if\n"); }
+    break;
+
+  case 35:
+/* Line 1792 of yacc.c  */
+#line 76 "translate.y"
+    { printf("\nprocessed cmd attr\n"); }
+    break;
+
+  case 36:
+/* Line 1792 of yacc.c  */
+#line 77 "translate.y"
+    { printf("\nprocessed id l_arg\n"); }
+    break;
+
+  case 37:
+/* Line 1792 of yacc.c  */
+#line 78 "translate.y"
+    { printf("\nprocessed begin\n"); }
+    break;
+
+  case 38:
+/* Line 1792 of yacc.c  */
+#line 80 "translate.y"
+    { printf("\nprocessed cond\n"); }
+    break;
+
+  case 39:
+/* Line 1792 of yacc.c  */
+#line 82 "translate.y"
+    { printf("\nprocessed rel eq\n"); }
+    break;
+
+  case 40:
+/* Line 1792 of yacc.c  */
+#line 83 "translate.y"
+    { printf("\nprocessed rel uneq\n"); }
+    break;
+
+  case 41:
+/* Line 1792 of yacc.c  */
+#line 84 "translate.y"
+    { printf("\nprocessed rel greq\n"); }
+    break;
+
+  case 42:
+/* Line 1792 of yacc.c  */
+#line 85 "translate.y"
+    { printf("\nprocessed rel gr\n"); }
+    break;
+
+  case 43:
+/* Line 1792 of yacc.c  */
+#line 86 "translate.y"
+    { printf("\nprocessed rel less\n"); }
+    break;
+
+  case 44:
+/* Line 1792 of yacc.c  */
+#line 89 "translate.y"
+    { printf("\nprocessed exp\n"); }
+    break;
+
+  case 52:
+/* Line 1792 of yacc.c  */
+#line 102 "translate.y"
+    { printf("\nprocessed termo\n"); }
+    break;
+
+  case 53:
+/* Line 1792 of yacc.c  */
+#line 104 "translate.y"
+    { printf("\nprocessed m_fator full\n"); }
+    break;
+
+  case 54:
+/* Line 1792 of yacc.c  */
+#line 105 "translate.y"
+    { printf("\nprocessed m_fator empty\n"); }
+    break;
+
+  case 55:
+/* Line 1792 of yacc.c  */
+#line 107 "translate.y"
+    { printf("\nprocessed op_mul mul\n"); }
+    break;
+
+  case 56:
+/* Line 1792 of yacc.c  */
+#line 108 "translate.y"
+    { printf("\nprocessed op_mul div\n"); }
+    break;
+
+  case 57:
+/* Line 1792 of yacc.c  */
+#line 111 "translate.y"
+    { printf("\nprocessed fator id\n"); }
+    break;
+
+  case 58:
+/* Line 1792 of yacc.c  */
+#line 112 "translate.y"
+    { printf("\nprocessed fator num\n"); }
+    break;
+
+  case 59:
+/* Line 1792 of yacc.c  */
+#line 113 "translate.y"
+    { printf("\nprocessed exp\n"); }
+    break;
+
 
 /* Line 1792 of yacc.c  */
-#line 1470 "y.tab.c"
+#line 1602 "y.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
