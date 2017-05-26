@@ -490,8 +490,8 @@ static const yytype_uint8 yyrline[] =
       53,    55,    57,    59,    60,    62,    64,    65,    67,    68,
       70,    71,    73,    74,    75,    76,    77,    78,    80,    82,
       83,    84,    85,    86,    89,    91,    92,    93,    95,    96,
-      98,    99,   102,   104,   105,   107,   108,   110,   111,   112,
-     114,   115
+      98,    99,   102,   104,   105,   107,   108,   111,   112,   113,
+     116,   117
 };
 #endif
 
@@ -1698,7 +1698,7 @@ yyreturn:
 
 
 /* Line 2055 of yacc.c  */
-#line 117 "translate.y"
+#line 119 "translate.y"
 
 /* programs */
 
@@ -1726,9 +1726,9 @@ main() {
 	yyin = myfile;
 
 	// testing lex
+	// yyparse might not work if uncommented
 	/*
 	int in = yylex();
-	
 	while (in) {
 		fprintf(output, "in: %d\n", in);
 		printf("in: %d\n", in);
@@ -1736,7 +1736,8 @@ main() {
 	}
 	*/
 	// parse through the input until there is no more:
-	int ret = yyparse();
+	int ret = 0;
+	ret = yyparse();
 	/*
 	int i = 0;
 	do {
@@ -1751,5 +1752,5 @@ main() {
 }
 
  void yyerror (char *s) {
-	fprintf (stderr, "%s\n", s);
+	fprintf (stderr, "\n%s\n", s);
 }

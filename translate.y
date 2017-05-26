@@ -105,11 +105,13 @@ m_fator	: op_mul fator m_fator
 	| ;
 
 op_mul	: '*'
-	| '/' ;
+	| '/'
+	;
 
 fator	: id
 	| num
-	| '(' exp ')' ;
+	| '(' exp ')'
+	;
 
 num	: numero_int
 	| numero_real ;
@@ -144,7 +146,6 @@ main() {
 	// yyparse might not work if uncommented
 	/*
 	int in = yylex();
-	
 	while (in) {
 		fprintf(output, "in: %d\n", in);
 		printf("in: %d\n", in);
@@ -152,7 +153,8 @@ main() {
 	}
 	*/
 	// parse through the input until there is no more:
-	int ret = yyparse();
+	int ret = 0;
+	ret = yyparse();
 	/*
 	int i = 0;
 	do {
@@ -167,5 +169,5 @@ main() {
 }
 
  void yyerror (char *s) {
-	fprintf (stderr, "%\ns\n", s);
+	fprintf (stderr, "\n%s\n", s);
 }
