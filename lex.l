@@ -11,27 +11,27 @@
 [0-9]+[_a-zA-Z]+[_a-zA-Z0-9]*    return 27;
 
  /* reserved words */
-"begin"			return begin;
-"end"			return end;
-"if"			return t_if;
-"then"			return t_then;
-"else"			return t_else;
-"procedure"		return procedure;
-"program"		return program;
-"read"			return read;
-"write"			return write;
-"var"			return var;
-"const"			return t_const;
+"begin"			{ECHO; return begin;}
+"end"			{ECHO; return end;}
+"if"			{ECHO; return t_if;}
+"then"			{ECHO; return t_then;}
+"else"			{ECHO; return t_else;}
+"procedure"		{ECHO; return procedure;}
+"program"		{ECHO; return program;}
+"read"			{ECHO; return read;}
+"write"			{ECHO; return write;}
+"var"			{ECHO; return var;}
+"const"			{ECHO; return t_const;}
 
 
  /* comments */
-"{"[^}]*"}"		return 2;
-(\(\*)[^(\*\))]*(\*\))	return 2;
-"//"[^\n]*		return 2;
+"{"[^}]*"}"		;
+(\(\*)[^(\*\))]*(\*\))	;
+"//"[^\n]*		;
 
 
  /* identifiers */
-[a-zA-Z][_a-zA-Z0-9]*	return id;
+[a-zA-Z][_a-zA-Z0-9]*	{ECHO; return id;}
 
 
  /* out of range */
@@ -51,13 +51,6 @@
 
  /* symbols */
 
- /* compound symbols */
- /*
-":="				return 8;
-"<>"				return 9;
- */
-
-
 
  /* Error */
 [+|-]*[_a-zA-Z0-9]*[@|&|{|}[|]|%|^]*[_a-zA-Z0-9]	return 27;
@@ -68,20 +61,15 @@
 "{"[^}]*						return 27;
 
 
-
+ /* remove white space and tab */
 [ \t\n]				;
 
 
-
-
  /* unexpected word (error) */
-.			return 99;
+.			{ECHO; return *yytext;}
 
 %%
 
-
-
-int yywrap(void)
-{
+int yywrap(void) {
 	return 1;
 }

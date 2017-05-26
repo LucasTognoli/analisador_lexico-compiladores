@@ -1426,79 +1426,79 @@ return 27;
 case 2:
 YY_RULE_SETUP
 #line 14 "lex.l"
-return begin;
+{ECHO; return begin;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 15 "lex.l"
-return end;
+{ECHO; return end;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 16 "lex.l"
-return t_if;
+{ECHO; return t_if;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 17 "lex.l"
-return t_then;
+{ECHO; return t_then;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 18 "lex.l"
-return t_else;
+{ECHO; return t_else;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 19 "lex.l"
-return procedure;
+{ECHO; return procedure;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 20 "lex.l"
-return program;
+{ECHO; return program;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 21 "lex.l"
-return read;
+{ECHO; return read;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 22 "lex.l"
-return write;
+{ECHO; return write;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 23 "lex.l"
-return var;
+{ECHO; return var;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 24 "lex.l"
-return t_const;
+{ECHO; return t_const;}
 	YY_BREAK
 /* comments */
 case 13:
 YY_RULE_SETUP
 #line 28 "lex.l"
-return 2;
+;
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 29 "lex.l"
-return 2;
+;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 30 "lex.l"
-return 2;
+;
 	YY_BREAK
 /* identifiers */
 case 16:
 YY_RULE_SETUP
 #line 34 "lex.l"
-return id;
+{ECHO; return id;}
 	YY_BREAK
 /* out of range */
 case 17:
@@ -1531,59 +1531,55 @@ YY_RULE_SETUP
 return 29;
 	YY_BREAK
 /* symbols */
-/* compound symbols */
-/*
-":="				return 8;
-"<>"				return 9;
- */
 /* Error */
 case 22:
 YY_RULE_SETUP
-#line 63 "lex.l"
+#line 56 "lex.l"
 return 27;
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 64 "lex.l"
+#line 57 "lex.l"
 return 27;
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 65 "lex.l"
+#line 58 "lex.l"
 return 27;
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 66 "lex.l"
+#line 59 "lex.l"
 return 27;
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 67 "lex.l"
+#line 60 "lex.l"
 return 27;
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 68 "lex.l"
+#line 61 "lex.l"
 return 27;
 	YY_BREAK
+/* remove white space and tab */
 case 28:
 YY_RULE_SETUP
-#line 72 "lex.l"
+#line 65 "lex.l"
 ;
 	YY_BREAK
 /* unexpected word (error) */
 case 29:
 YY_RULE_SETUP
-#line 78 "lex.l"
-return 99;
+#line 69 "lex.l"
+{ECHO; return *yytext;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 80 "lex.l"
+#line 71 "lex.l"
 ECHO;
 	YY_BREAK
-#line 1587 "lex.yy.c"
+#line 1583 "lex.yy.c"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -2467,12 +2463,9 @@ int main()
 	return 0;
 	}
 #endif
-#line 80 "lex.l"
+#line 71 "lex.l"
 
 
-
-
-int yywrap(void)
-{
+int yywrap(void) {
 	return 1;
 }

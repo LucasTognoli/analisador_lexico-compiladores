@@ -485,13 +485,13 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    14,    14,    19,    21,    23,    24,    26,    27,    29,
-      30,    33,    35,    36,    38,    39,    41,    42,    44,    46,
-      47,    49,    51,    53,    54,    56,    58,    59,    61,    62,
-      64,    65,    67,    68,    69,    70,    71,    72,    74,    76,
-      77,    78,    79,    80,    83,    85,    86,    87,    89,    90,
-      92,    93,    96,    98,    99,   101,   102,   104,   105,   106,
-     108,   109
+       0,    20,    20,    25,    27,    29,    30,    32,    33,    35,
+      36,    39,    41,    42,    44,    45,    47,    48,    50,    52,
+      53,    55,    57,    59,    60,    62,    64,    65,    67,    68,
+      70,    71,    73,    74,    75,    76,    77,    78,    80,    82,
+      83,    84,    85,    86,    89,    91,    92,    93,    95,    96,
+      98,    99,   102,   104,   105,   107,   108,   110,   111,   112,
+     114,   115
 };
 #endif
 
@@ -1458,16 +1458,15 @@ yyreduce:
     {
         case 2:
 /* Line 1792 of yacc.c  */
-#line 14 "translate.y"
-    { 
-					printf("program\n");
-					fprintf(output, "program");
+#line 20 "translate.y"
+    { printf("program\n");
+				     fprintf(output, "program");
 				   }
     break;
 
 
 /* Line 1792 of yacc.c  */
-#line 1471 "y.tab.c"
+#line 1470 "y.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1699,7 +1698,7 @@ yyreturn:
 
 
 /* Line 2055 of yacc.c  */
-#line 110 "translate.y"
+#line 117 "translate.y"
 
 /* programs */
 
@@ -1712,13 +1711,11 @@ extern FILE *yyin;
 main() {
 
 	// open output file
-	printf("Testando...\n");
-
 	output = fopen("log.txt", "w");
 	if (!output) {
 		return -1;
 	}
-	fprintf(output, "oi");
+	printf("Testando...\n");
 
 	// open input file
 	FILE *myfile = fopen("sample.pas", "r");
@@ -1729,6 +1726,7 @@ main() {
 	yyin = myfile;
 
 	// testing lex
+	/*
 	int in = yylex();
 	
 	while (in) {
@@ -1736,19 +1734,22 @@ main() {
 		printf("in: %d\n", in);
 		in = yylex();
 	}
-	
+	*/
 	// parse through the input until there is no more:
+	int ret = yyparse();
+	/*
 	int i = 0;
 	do {
 		i++;
 		printf("%d\n", i);
-		yyparse();
+
 	} while (!feof(yyin));
+	*/
 
-	Sleep(10000);
-
+	Sleep(100000);
+	return ret;
 }
 
-void yyerror(char *s) {
-
+ void yyerror (char *s) {
+	fprintf (stderr, "%s\n", s);
 }

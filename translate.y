@@ -11,10 +11,16 @@ FILE *output;
 
 %% 
 /* rules */
-prog	: program id ';' corpo '.' { 
-					printf("program\n");
-					fprintf(output, "program");
+ /*
+prog	: program ';' { printf("Yes\n");
+			fprintf(output, "Yes");
+		      }
+	;
+ */
+prog	: program id ';' corpo '.' { printf("program\n");
+				     fprintf(output, "program");
 				   }
+	;
 
 corpo	: dc begin cmds end ;
 
@@ -107,6 +113,7 @@ fator	: id
 
 num	: numero_int
 	| numero_real ;
+
 %%
 /* programs */
 
@@ -119,13 +126,11 @@ extern FILE *yyin;
 main() {
 
 	// open output file
-	printf("Testando...\n");
-
 	output = fopen("log.txt", "w");
 	if (!output) {
 		return -1;
 	}
-	fprintf(output, "oi");
+	printf("Testando...\n");
 
 	// open input file
 	FILE *myfile = fopen("sample.pas", "r");
@@ -136,6 +141,8 @@ main() {
 	yyin = myfile;
 
 	// testing lex
+	// yyparse might not work if uncommented
+	/*
 	int in = yylex();
 	
 	while (in) {
@@ -143,19 +150,22 @@ main() {
 		printf("in: %d\n", in);
 		in = yylex();
 	}
-	
+	*/
 	// parse through the input until there is no more:
+	int ret = yyparse();
+	/*
 	int i = 0;
 	do {
 		i++;
 		printf("%d\n", i);
-		yyparse();
+
 	} while (!feof(yyin));
+	*/
 
-	Sleep(10000);
-
+	Sleep(100000);
+	return ret;
 }
 
-void yyerror(char *s) {
-
+ void yyerror (char *s) {
+	fprintf (stderr, "%\ns\n", s);
 }
