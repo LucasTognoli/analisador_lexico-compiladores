@@ -57,14 +57,16 @@ extern int yydebug;
      numero_int = 266,
      numero_real = 267,
      t_else = 268,
-     REAL = 269,
-     INTEGER = 270,
-     T_CONT = 271,
-     ID = 272,
-     PROGRAM = 273,
-     T_BEGIN = 274,
-     END = 275,
-     VAR = 276
+     ENDL = 269,
+     PONTOEVIRGULA = 270,
+     REAL = 271,
+     INTEGER = 272,
+     T_CONT = 273,
+     ID = 274,
+     PROGRAM = 275,
+     T_BEGIN = 276,
+     END = 277,
+     VAR = 278
    };
 #endif
 /* Tokens.  */
@@ -79,14 +81,16 @@ extern int yydebug;
 #define numero_int 266
 #define numero_real 267
 #define t_else 268
-#define REAL 269
-#define INTEGER 270
-#define T_CONT 271
-#define ID 272
-#define PROGRAM 273
-#define T_BEGIN 274
-#define END 275
-#define VAR 276
+#define ENDL 269
+#define PONTOEVIRGULA 270
+#define REAL 271
+#define INTEGER 272
+#define T_CONT 273
+#define ID 274
+#define PROGRAM 275
+#define T_BEGIN 276
+#define END 277
+#define VAR 278
 
 
 
@@ -102,7 +106,7 @@ typedef union YYSTYPE
        
 
 /* Line 2058 of yacc.c  */
-#line 106 "y.tab.h"
+#line 110 "y.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

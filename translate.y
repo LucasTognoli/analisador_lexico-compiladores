@@ -3,13 +3,13 @@
 #include "windows.h"
 #include <stdlib.h>
 #include <ctype.h>
-#define YYSTYPE double
+#define YYSTYPE char *
 FILE *output;
 %}
 /* declaration */
 %token program t_const var
 %token procedure read write t_if t_then numero_int numero_real t_else
-
+%token ENDL PONTOEVIRGULA
 %union
        {
                int number;
@@ -28,109 +28,13 @@ FILE *output;
 
 
 
-%start prog
+%start proger
 
 %% 
 /* rules */
-proger	: PROGRAM  {printf("program\n");}
+proger	: PROGRAM ID PONTOEVIRGULA	 {printf("program lucas\n");} 
+	|error '\n'			 {yyerrok;}
 
-
-prog	: PROGRAM ID ';' corpo '.' { 
-					printf("program\n");
-					fprintf(output, "program");
-				   }
-
-corpo	: dc T_BEGIN cmds END ;
-
-dc	: dc_c dc_v dc_p ;
-
-dc_c	: t_const ID '=' num ';' dc_c
-	| ;
-
-dc_v	: var vars ':' t_var ';' dc_v
-	| ;
-
-t_var	: REAL
-	| INTEGER
-	;
-
-vars	: ID m_var ;
-
-m_var	: ',' vars
-	| ;
-
-dc_p	: procedure ID param ';' corpo_p dc_p
-	| ;
-
-param	: '(' l_par ')'
-	| ;
-
-l_par	: vars ':' t_var m_par ;
-
-m_par	: ';' l_par
-	| ;
-
-corpo_p	: dc_loc T_BEGIN cmds END ';' ;
-
-dc_loc	: dc_v ;
-
-l_arg	: '(' args ')'
-	| ;
-
-args	: ID m_id ;
-
-m_id	: ';' args
-	| ;
-
-pfalsa	: t_else cmd
-	| ;
-
-cmds	: cmd ';' cmds
-	| ;
-
-cmd	: read '(' vars ')'
-	| write '(' vars ')'
-	| t_if cond t_then cmd pfalsa
-	| ID ':' '=' exp
-	| ID l_arg
-	| T_BEGIN cmds END ;
-
-cond	: exp rel exp ;
-
-rel	: '='
-	| '<' '>'
-	| '>' '='
-	| '>'
-	| '<'
-	;
-
-exp	: termo ou_ter ;
-
-op_un	: '+'
-	| '-'
-	| ;
-
-ou_ter	: op_ad termo ou_ter
-	| ;
-
-op_ad	: '+'
-	| '-'
-	;
-
-termo	: op_un fator m_fator
-
-m_fator	: op_mul fator m_fator
-	| ;
-
-op_mul	: '*'
-	| '/' ;
-
-fator	: ID
-	| num
-	| '(' exp ')' ;
-
-num	: numero_int
-	| numero_real ;
 %%
 /* programs */
 
@@ -139,7 +43,7 @@ num	: numero_int
 extern int yylex();
 extern int yyparse();
 extern FILE *yyin;
-
+extern int line_num;
 main() {
 
 	// open output file
@@ -160,27 +64,26 @@ main() {
 	yyin = myfile;
 
 	// testing lex
-	int in = yylex();
+	char *in;
 	
 	/*while (in) {
-		fprintf(output, "in: %d\n", in);
-		printf("in: %d\n", in);
-		in = yylex();
-	}
+		fprintf(output, "in: %s\n", in);
+		printf("in: %s\n", in);
+		in = yylval;
+	}*/
 	
 	// parse through the input until there is no more:
-	int i = 0;
 	do {
-		i++;
-		printf("%d\n", i);
 		yyparse();
-	} while (!feof(yyin));*/
-	yyparse();
+		//in = yylval;
+		//printf("in: %s\n", in);
+	} while (!feof(yyin));
+	
 
-	Sleep(10000);
+	Sleep(1000000);
 
 }
 
-void yyerror(char *s) {
-	fprintf(stderr,"error: %s\n",s);
+int yyerror(char *s) {
+	fprintf(stderr,"line: %d - error: %s\n", line_num, s);
 }

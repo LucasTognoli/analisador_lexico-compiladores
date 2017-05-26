@@ -1,17 +1,3 @@
-program nome1;
-{exemplo 1}
-var a, a1 , b: integer;
-begin
-read(a);
-a:= a∗2;
-read(b);
-b:=b+2;
-if a <> b then
-a1:= a−1;
-else
-begin
-b:=b+2;
-a:=a−1;
-end;
-if a <> b then write(a);
-end.
+program lucas;
+program
+program lucas;

@@ -4,6 +4,7 @@
 %option caseless
 %{
 #include "y.tab.h"  // to get the token types that we return
+int line_num = 1;
 %}
 %%
 
@@ -17,12 +18,14 @@
 "then"			return t_then;
 "else"			return t_else;
 "procedure"		return procedure;
-"program"		return PROGRAM;
+"program"		{ 
+			return PROGRAM;}
 "read"			return read;
 "write"			return write;
 "var"			return var;
 "const"			return t_const;
 
+\n    { ++line_num; return ENDL; }
 
  /* comments */
 "{"[^}]*"}"		return 2;
@@ -31,7 +34,7 @@
 
 
  /* identifiers */
-[a-zA-Z][_a-zA-Z0-9]*	return ID;
+[a-zA-Z][_a-zA-Z0-9]*	 return ID;
 
 
  /* out of range */
