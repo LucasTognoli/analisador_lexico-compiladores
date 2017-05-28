@@ -2,7 +2,7 @@ program nome1;
 {exemplo 1}
 var a, a1, b: integer;
 begin
-read(a);
+read($);
 a:= a*2;
 read(b);
 b:=b+2;

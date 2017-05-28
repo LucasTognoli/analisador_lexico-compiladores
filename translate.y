@@ -1,5 +1,6 @@
 %{
 #define YYDEBUG 1
+
 #include <stdio.h>
 #include <unistd.h>
 int yydebug=0;
@@ -15,20 +16,21 @@ FILE *output;
 /* rules */
 
 prog	: program id ';' corpo '.'
-	| error ';' {yyerror("Falta de PROGRAM ou de ID ou de CORPO ou de PONTO FINAL\n"); yyerrok; yyclearin;}
+	| error ';' {fprintf(output,"PROG\n"); yyerrok; yyclearin;}
 	;
 
 corpo	: dc begin cmds end
-	| error ';' {yyerror("dc begin cmds end\n");yyerrok; yyclearin;}
+	| error ';' {fprintf(output,"CORPO\n");yyerrok; yyclearin;}
 	;
 
+
 dc	: dc_c dc_v dc_p
-	| error ';' {yyerror("dc_c dc_v dc_p\n");yyerrok; yyclearin;}
+	| error ';' {fprintf(output,"DC\n");yyerrok; yyclearin;}
 	;
 
 dc_c	: t_const id '=' num ';' dc_c
 	|
-	| error '\n' {yyerror("t_const id '=' num ';' dc_c\n"); yyerrok; yyclearin;}
+	| error '\n' {fprintf(output,"DC_C\n"); yyerrok; yyclearin;}
 	;
 
 dc_v	: var vars ':' t_var ';' dc_v
@@ -37,16 +39,16 @@ dc_v	: var vars ':' t_var ';' dc_v
 
 t_var	: real
 	| integer
-	| error ';' {yyerror("t_var: real\n"); yyerrok; yyclearin;}
+	| error ';' {fprintf(output,"T_VAR\n"); yyerrok; yyclearin;}
 	;
 
 vars	: id m_var
-	| error ';' {yyerror("vars: id m_var\n"); yyerrok; yyclearin;}
+	| error ';' {fprintf(output,"VARS\n"); yyerrok; yyclearin;}
 	;
 
 m_var	: ',' vars
 	|
-	| error ';' {yyerror("m_var: ',' vars\n"); yyerrok;yyclearin;}
+	| error ';' {fprintf(output,"M_VAR\n"); yyerrok;yyclearin;}
 	;
 
 dc_p	: procedure id param ';' corpo_p dc_p
@@ -55,38 +57,38 @@ dc_p	: procedure id param ';' corpo_p dc_p
 
 param	: '(' l_par ')'
 	|
-	| error ';' {yyerror("param: '(' l_par ')'\n"); yyerrok; yyclearin;}
+	| error ';' {fprintf(output,"PARAM\n"); yyerrok; yyclearin;}
 	;
 
 l_par	: vars ':' t_var m_par
-	| error ';' {yyerror("l_par: vars ':' t_var m_par\n"); yyerrok; yyclearin; }
+	| error ';' {fprintf(output,"L_PAR\n"); yyerrok; yyclearin; }
 	;
 
 m_par	: ';' l_par
 	|
-	| error ';' {yyerror("m_par: ';' l_par\n"); yyerrok; yyclearin;}
+	| error ';' {fprintf(output,"M_PAR\n"); yyerrok; yyclearin;}
 	;
 
 corpo_p	: dc_loc begin cmds end ';'
-	| error ';' {yyerror("corpo_p	: dc_loc begin cmds end ';'\n"); yyerrok; yyclearin;}
+	| error ';' {fprintf(output,"CORPO_P\n"); yyerrok; yyclearin;}
 	;
 
 dc_loc	: dc_v
-	| error '\n' {yyerror("dc_loc: dc_v\n") ;yyerrok; yyclearin;}
+	| error '\n' {fprintf(output,"DC_LOC\n") ;yyerrok; yyclearin;}
 	;
 
 l_arg	: '(' args ')'
-	| error ';' {yyerror("l_arg: '(' args ')'\n"); yyerrok;yyerrok; yyclearin;}
+	| error ';' {fprintf(output,"L_ARG\n"); yyerrok;yyerrok; yyclearin;}
 	|
 	;
 
 args	: id m_id
-	| error ';' {yyerror("args: id m_id\n");yyerrok; yyclearin;}
+	| error ';' {fprintf(output,"ARGS\n");yyerrok; yyclearin;}
 	;
 
 m_id	: ';' args
 	|
-	| error ';' {yyerror("m_id: ';' args\n"); yyerrok; yyclearin;}
+	| error ';' {fprintf(output,"M_ID\n"); yyerrok; yyclearin;}
 	;
 
 pfalsa	: t_else cmd
@@ -95,7 +97,7 @@ pfalsa	: t_else cmd
 
 cmds	: cmd ';' cmds
 	|
-	| error ';' {yyerror("cmds: cmd ';' cmds\n"); yyerrok; yyclearin;}
+	| error ';' {fprintf(output,"CMDS\n"); yyerrok; yyclearin;}
 	;
 
 cmd	: t_read '(' vars ')'
@@ -108,7 +110,7 @@ cmd	: t_read '(' vars ')'
 	;
 
 cond	: exp rel exp
-	| error ';' {yyerror("cond: exp rel exp\n"); yyerrok; yyclearin;}
+	| error ';' {fprintf(output,"COND\n"); yyerrok; yyclearin;}
 	;
 
 rel	: '='
@@ -116,17 +118,17 @@ rel	: '='
 	| '>' '='
 	| '>'
 	| '<'
-	| error ';' {yyerror("REL\n"); yyerrok; yyclearin;}
+	| error ';' {fprintf(output,"REL\n"); yyerrok; yyclearin;}
 	;
 
 exp	: termo ou_ter
-	| error ';' {yyerror("exp : termo ou_ter\n"); yyerrok; yyclearin;}
+	| error ';' {fprintf(output,"EXP\n"); yyerrok; yyclearin;}
 	;
 
 op_un	: '+'
 	| '-'
 	|
-	| error ';' {yyerror("OP_UN\n"); yyerrok; yyclearin;}
+	| error ';' {fprintf(output,"OP_UN\n"); yyerrok; yyclearin;}
 	;
 
 ou_ter	: op_ad termo ou_ter
@@ -138,7 +140,7 @@ op_ad	: '+'
 	;
 
 termo	: op_un fator m_fator
-	| error '\n' {yyerror("termo	: op_un fator m_fatorn"); yyerrok; yyclearin;}
+	| error '\n' {fprintf(output,"TERMO\n"); yyerrok; yyclearin;}
 	;
 
 m_fator	: op_mul fator m_fator
@@ -168,6 +170,7 @@ extern int yylex();
 extern int yyparse();
 extern FILE *yyin;
 extern int line_num;
+extern char* yytext;
 
 int main() {
 
@@ -176,7 +179,7 @@ int main() {
 	if (!output) {
 		return -1;
 	}
-	fprintf(output, "Results:\n");
+	fprintf(output, "Results:\n\n");
 
 	// open input file
 	FILE *myfile = fopen("sample.pas", "r");
@@ -190,12 +193,16 @@ int main() {
 	int ret = 0;
 	ret = yyparse();
 
-
+	fclose(output);
 	return ret;
 }
 
 int  yyerror(char *s) {
-	fprintf(stderr,"\n\n\t\t\t\tline: %d - error: %s\n\n\n", line_num, s);
-	fprintf(output,"\nline: %d - %s on rule: ", line_num, s);
+	fprintf(output,"\nline: %d - %s", line_num, s);
+	fprintf(output,". Token: '%s' on rule: ", yytext);
 	return 1;
+}
+
+void print_log(char *s){
+	fprintf(output,"%s", s);
 }

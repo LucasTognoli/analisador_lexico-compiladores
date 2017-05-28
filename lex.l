@@ -9,7 +9,7 @@ int line_num = 1;
 %%
 
  /* variable name error*/
-[0-9]+[_a-zA-Z]+[_a-zA-Z0-9]* {printf("Line %d - Lexical Error: Bad Identifier\n", line_num);}
+[0-9]+[_a-zA-Z]+[_a-zA-Z0-9]* {print_log("line %d - Lexical Error: Bad Identifier\n");}
 
  /* reserved words */
 "begin"			{return begin;}
@@ -20,7 +20,7 @@ int line_num = 1;
 "procedure"		{return procedure;}
 "program"		{return program;}
 "read"			{return t_read;}
-"write"     {return t_write;}
+"write"			{return t_write;}
 "var"			{return var;}
 "const"			{return t_const;}
 "real"			{return real;}
@@ -62,7 +62,6 @@ int line_num = 1;
 
  /* remove white space, new line and tab */
 [ \t\n]   {}
-
 
 
  /* symbols */
