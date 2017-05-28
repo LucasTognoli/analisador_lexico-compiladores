@@ -1,0 +1,1651 @@
+Grammar
+
+    0 $accept: prog $end
+
+    1 prog: program id ';' corpo '.'
+    2     | error ';'
+
+    3 corpo: dc begin cmds end
+    4      | error ';'
+
+    5 dc: dc_c dc_v dc_p
+    6   | error ';'
+
+    7 dc_c: t_const id '=' num ';' dc_c
+    8     | /* empty */
+    9     | error '\n'
+
+   10 dc_v: var vars ':' t_var ';' dc_v
+   11     | /* empty */
+
+   12 t_var: real
+   13      | integer
+   14      | error ';'
+
+   15 vars: id m_var
+   16     | error ';'
+
+   17 m_var: ',' vars
+   18      | /* empty */
+   19      | error ';'
+
+   20 dc_p: procedure id param ';' corpo_p dc_p
+   21     | /* empty */
+
+   22 param: '(' l_par ')'
+   23      | /* empty */
+   24      | error ';'
+
+   25 l_par: vars ':' t_var m_par
+   26      | error ';'
+
+   27 m_par: ';' l_par
+   28      | /* empty */
+   29      | error ';'
+
+   30 corpo_p: dc_loc begin cmds end ';'
+   31        | error ';'
+
+   32 dc_loc: dc_v
+   33       | error '\n'
+
+   34 l_arg: '(' args ')'
+   35      | error ';'
+   36      | /* empty */
+
+   37 args: id m_id
+   38     | error ';'
+
+   39 m_id: ';' args
+   40     | /* empty */
+   41     | error ';'
+
+   42 pfalsa: t_else cmd
+
+   43 cmds: cmd ';' cmds
+   44     | /* empty */
+   45     | error ';'
+
+   46 cmd: t_read '(' vars ')'
+   47    | t_write '(' vars ')'
+   48    | t_if cond t_then cmd pfalsa
+   49    | id ':' '=' exp
+   50    | id l_arg
+   51    | begin cmds end
+   52    | error ';'
+
+   53 cond: exp rel exp
+   54     | error ';'
+
+   55 rel: '='
+   56    | '<' '>'
+   57    | '>' '='
+   58    | '>'
+   59    | '<'
+   60    | error ';'
+
+   61 exp: termo ou_ter
+   62    | error ';'
+
+   63 op_un: '+'
+   64      | '-'
+   65      | /* empty */
+   66      | error ';'
+
+   67 ou_ter: op_ad termo ou_ter
+   68       | /* empty */
+
+   69 op_ad: '+'
+   70      | '-'
+
+   71 termo: op_un fator m_fator
+   72      | error '\n'
+
+   73 m_fator: op_mul fator m_fator
+   74        | /* empty */
+
+   75 op_mul: '*'
+   76       | '/'
+
+   77 fator: id
+   78      | num
+   79      | '(' exp ')'
+
+   80 num: numero_int
+   81    | numero_real
+   82    | subrange
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'\n' (10) 9 33 72
+'(' (40) 22 34 46 47 79
+')' (41) 22 34 46 47 79
+'*' (42) 75
+'+' (43) 63 69
+',' (44) 17
+'-' (45) 64 70
+'.' (46) 1
+'/' (47) 76
+':' (58) 10 25 49
+';' (59) 1 2 4 6 7 10 14 16 19 20 24 26 27 29 30 31 35 38 39 41 43
+    45 52 54 60 62 66
+'<' (60) 56 59
+'=' (61) 7 49 55 57
+'>' (62) 56 57 58
+error (256) 2 4 6 9 14 16 19 24 26 29 31 33 35 38 41 45 52 54 60 62
+    66 72
+program (258) 1
+id (259) 1 7 15 20 37 49 50 77
+begin (260) 3 30 51
+end (261) 3 30 51
+t_const (262) 7
+var (263) 10
+real (264) 12
+integer (265) 13
+subrange (266) 82
+procedure (267) 20
+t_read (268) 46
+t_write (269) 47
+t_if (270) 48
+t_then (271) 48
+numero_int (272) 80
+numero_real (273) 81
+t_else (274) 42
+
+
+Nonterminals, with rules where they appear
+
+$accept (34)
+    on left: 0
+prog (35)
+    on left: 1 2, on right: 0
+corpo (36)
+    on left: 3 4, on right: 1
+dc (37)
+    on left: 5 6, on right: 3
+dc_c (38)
+    on left: 7 8 9, on right: 5 7
+dc_v (39)
+    on left: 10 11, on right: 5 10 32
+t_var (40)
+    on left: 12 13 14, on right: 10 25
+vars (41)
+    on left: 15 16, on right: 10 17 25 46 47
+m_var (42)
+    on left: 17 18 19, on right: 15
+dc_p (43)
+    on left: 20 21, on right: 5 20
+param (44)
+    on left: 22 23 24, on right: 20
+l_par (45)
+    on left: 25 26, on right: 22 27
+m_par (46)
+    on left: 27 28 29, on right: 25
+corpo_p (47)
+    on left: 30 31, on right: 20
+dc_loc (48)
+    on left: 32 33, on right: 30
+l_arg (49)
+    on left: 34 35 36, on right: 50
+args (50)
+    on left: 37 38, on right: 34 39
+m_id (51)
+    on left: 39 40 41, on right: 37
+pfalsa (52)
+    on left: 42, on right: 48
+cmds (53)
+    on left: 43 44 45, on right: 3 30 43 51
+cmd (54)
+    on left: 46 47 48 49 50 51 52, on right: 42 43 48
+cond (55)
+    on left: 53 54, on right: 48
+rel (56)
+    on left: 55 56 57 58 59 60, on right: 53
+exp (57)
+    on left: 61 62, on right: 49 53 79
+op_un (58)
+    on left: 63 64 65 66, on right: 71
+ou_ter (59)
+    on left: 67 68, on right: 61 67
+op_ad (60)
+    on left: 69 70, on right: 67
+termo (61)
+    on left: 71 72, on right: 61 67
+m_fator (62)
+    on left: 73 74, on right: 71 73
+op_mul (63)
+    on left: 75 76, on right: 73
+fator (64)
+    on left: 77 78 79, on right: 71 73
+num (65)
+    on left: 80 81 82, on right: 7 78
+
+
+State 0
+
+    0 $accept: . prog $end
+
+    error    shift, and go to state 1
+    program  shift, and go to state 2
+
+    prog  go to state 3
+
+
+State 1
+
+    2 prog: error . ';'
+
+    ';'  shift, and go to state 4
+
+
+State 2
+
+    1 prog: program . id ';' corpo '.'
+
+    id  shift, and go to state 5
+
+
+State 3
+
+    0 $accept: prog . $end
+
+    $end  shift, and go to state 6
+
+
+State 4
+
+    2 prog: error ';' .
+
+    $default  reduce using rule 2 (prog)
+
+
+State 5
+
+    1 prog: program id . ';' corpo '.'
+
+    ';'  shift, and go to state 7
+
+
+State 6
+
+    0 $accept: prog $end .
+
+    $default  accept
+
+
+State 7
+
+    1 prog: program id ';' . corpo '.'
+
+    error    shift, and go to state 8
+    t_const  shift, and go to state 9
+
+    begin      reduce using rule 8 (dc_c)
+    var        reduce using rule 8 (dc_c)
+    procedure  reduce using rule 8 (dc_c)
+
+    corpo  go to state 10
+    dc     go to state 11
+    dc_c   go to state 12
+
+
+State 8
+
+    4 corpo: error . ';'
+    6 dc: error . ';'
+    9 dc_c: error . '\n'
+
+    ';'   shift, and go to state 13
+    '\n'  shift, and go to state 14
+
+
+State 9
+
+    7 dc_c: t_const . id '=' num ';' dc_c
+
+    id  shift, and go to state 15
+
+
+State 10
+
+    1 prog: program id ';' corpo . '.'
+
+    '.'  shift, and go to state 16
+
+
+State 11
+
+    3 corpo: dc . begin cmds end
+
+    begin  shift, and go to state 17
+
+
+State 12
+
+    5 dc: dc_c . dc_v dc_p
+
+    var  shift, and go to state 18
+
+    $default  reduce using rule 11 (dc_v)
+
+    dc_v  go to state 19
+
+
+State 13
+
+    4 corpo: error ';' .
+    6 dc: error ';' .
+
+    begin     reduce using rule 6 (dc)
+    $default  reduce using rule 4 (corpo)
+
+
+State 14
+
+    9 dc_c: error '\n' .
+
+    $default  reduce using rule 9 (dc_c)
+
+
+State 15
+
+    7 dc_c: t_const id . '=' num ';' dc_c
+
+    '='  shift, and go to state 20
+
+
+State 16
+
+    1 prog: program id ';' corpo '.' .
+
+    $default  reduce using rule 1 (prog)
+
+
+State 17
+
+    3 corpo: dc begin . cmds end
+
+    error    shift, and go to state 21
+    id       shift, and go to state 22
+    begin    shift, and go to state 23
+    t_read   shift, and go to state 24
+    t_write  shift, and go to state 25
+    t_if     shift, and go to state 26
+
+    end  reduce using rule 44 (cmds)
+
+    cmds  go to state 27
+    cmd   go to state 28
+
+
+State 18
+
+   10 dc_v: var . vars ':' t_var ';' dc_v
+
+    error  shift, and go to state 29
+    id     shift, and go to state 30
+
+    vars  go to state 31
+
+
+State 19
+
+    5 dc: dc_c dc_v . dc_p
+
+    procedure  shift, and go to state 32
+
+    $default  reduce using rule 21 (dc_p)
+
+    dc_p  go to state 33
+
+
+State 20
+
+    7 dc_c: t_const id '=' . num ';' dc_c
+
+    subrange     shift, and go to state 34
+    numero_int   shift, and go to state 35
+    numero_real  shift, and go to state 36
+
+    num  go to state 37
+
+
+State 21
+
+   45 cmds: error . ';'
+   52 cmd: error . ';'
+
+    ';'  shift, and go to state 38
+
+
+State 22
+
+   49 cmd: id . ':' '=' exp
+   50    | id . l_arg
+
+    error  shift, and go to state 39
+    ':'    shift, and go to state 40
+    '('    shift, and go to state 41
+
+    t_else  reduce using rule 36 (l_arg)
+    ';'     reduce using rule 36 (l_arg)
+
+    l_arg  go to state 42
+
+
+State 23
+
+   51 cmd: begin . cmds end
+
+    error    shift, and go to state 21
+    id       shift, and go to state 22
+    begin    shift, and go to state 23
+    t_read   shift, and go to state 24
+    t_write  shift, and go to state 25
+    t_if     shift, and go to state 26
+
+    end  reduce using rule 44 (cmds)
+
+    cmds  go to state 43
+    cmd   go to state 28
+
+
+State 24
+
+   46 cmd: t_read . '(' vars ')'
+
+    '('  shift, and go to state 44
+
+
+State 25
+
+   47 cmd: t_write . '(' vars ')'
+
+    '('  shift, and go to state 45
+
+
+State 26
+
+   48 cmd: t_if . cond t_then cmd pfalsa
+
+    error  shift, and go to state 46
+    '+'    shift, and go to state 47
+    '-'    shift, and go to state 48
+
+    id           reduce using rule 65 (op_un)
+    subrange     reduce using rule 65 (op_un)
+    numero_int   reduce using rule 65 (op_un)
+    numero_real  reduce using rule 65 (op_un)
+    '('          reduce using rule 65 (op_un)
+
+    cond   go to state 49
+    exp    go to state 50
+    op_un  go to state 51
+    termo  go to state 52
+
+
+State 27
+
+    3 corpo: dc begin cmds . end
+
+    end  shift, and go to state 53
+
+
+State 28
+
+   43 cmds: cmd . ';' cmds
+
+    ';'  shift, and go to state 54
+
+
+State 29
+
+   16 vars: error . ';'
+
+    ';'  shift, and go to state 55
+
+
+State 30
+
+   15 vars: id . m_var
+
+    error  shift, and go to state 56
+    ','    shift, and go to state 57
+
+    ':'  reduce using rule 18 (m_var)
+    ')'  reduce using rule 18 (m_var)
+
+    m_var  go to state 58
+
+
+State 31
+
+   10 dc_v: var vars . ':' t_var ';' dc_v
+
+    ':'  shift, and go to state 59
+
+
+State 32
+
+   20 dc_p: procedure . id param ';' corpo_p dc_p
+
+    id  shift, and go to state 60
+
+
+State 33
+
+    5 dc: dc_c dc_v dc_p .
+
+    $default  reduce using rule 5 (dc)
+
+
+State 34
+
+   82 num: subrange .
+
+    $default  reduce using rule 82 (num)
+
+
+State 35
+
+   80 num: numero_int .
+
+    $default  reduce using rule 80 (num)
+
+
+State 36
+
+   81 num: numero_real .
+
+    $default  reduce using rule 81 (num)
+
+
+State 37
+
+    7 dc_c: t_const id '=' num . ';' dc_c
+
+    ';'  shift, and go to state 61
+
+
+State 38
+
+   45 cmds: error ';' .
+   52 cmd: error ';' .
+
+    ';'       reduce using rule 52 (cmd)
+    $default  reduce using rule 45 (cmds)
+
+
+State 39
+
+   35 l_arg: error . ';'
+
+    ';'  shift, and go to state 62
+
+
+State 40
+
+   49 cmd: id ':' . '=' exp
+
+    '='  shift, and go to state 63
+
+
+State 41
+
+   34 l_arg: '(' . args ')'
+
+    error  shift, and go to state 64
+    id     shift, and go to state 65
+
+    args  go to state 66
+
+
+State 42
+
+   50 cmd: id l_arg .
+
+    $default  reduce using rule 50 (cmd)
+
+
+State 43
+
+   51 cmd: begin cmds . end
+
+    end  shift, and go to state 67
+
+
+State 44
+
+   46 cmd: t_read '(' . vars ')'
+
+    error  shift, and go to state 29
+    id     shift, and go to state 30
+
+    vars  go to state 68
+
+
+State 45
+
+   47 cmd: t_write '(' . vars ')'
+
+    error  shift, and go to state 29
+    id     shift, and go to state 30
+
+    vars  go to state 69
+
+
+State 46
+
+   54 cond: error . ';'
+   62 exp: error . ';'
+   66 op_un: error . ';'
+   72 termo: error . '\n'
+
+    ';'   shift, and go to state 70
+    '\n'  shift, and go to state 71
+
+
+State 47
+
+   63 op_un: '+' .
+
+    $default  reduce using rule 63 (op_un)
+
+
+State 48
+
+   64 op_un: '-' .
+
+    $default  reduce using rule 64 (op_un)
+
+
+State 49
+
+   48 cmd: t_if cond . t_then cmd pfalsa
+
+    t_then  shift, and go to state 72
+
+
+State 50
+
+   53 cond: exp . rel exp
+
+    error  shift, and go to state 73
+    '='    shift, and go to state 74
+    '<'    shift, and go to state 75
+    '>'    shift, and go to state 76
+
+    rel  go to state 77
+
+
+State 51
+
+   71 termo: op_un . fator m_fator
+
+    id           shift, and go to state 78
+    subrange     shift, and go to state 34
+    numero_int   shift, and go to state 35
+    numero_real  shift, and go to state 36
+    '('          shift, and go to state 79
+
+    fator  go to state 80
+    num    go to state 81
+
+
+State 52
+
+   61 exp: termo . ou_ter
+
+    '+'  shift, and go to state 82
+    '-'  shift, and go to state 83
+
+    $default  reduce using rule 68 (ou_ter)
+
+    ou_ter  go to state 84
+    op_ad   go to state 85
+
+
+State 53
+
+    3 corpo: dc begin cmds end .
+
+    $default  reduce using rule 3 (corpo)
+
+
+State 54
+
+   43 cmds: cmd ';' . cmds
+
+    error    shift, and go to state 21
+    id       shift, and go to state 22
+    begin    shift, and go to state 23
+    t_read   shift, and go to state 24
+    t_write  shift, and go to state 25
+    t_if     shift, and go to state 26
+
+    end  reduce using rule 44 (cmds)
+
+    cmds  go to state 86
+    cmd   go to state 28
+
+
+State 55
+
+   16 vars: error ';' .
+
+    $default  reduce using rule 16 (vars)
+
+
+State 56
+
+   19 m_var: error . ';'
+
+    ';'  shift, and go to state 87
+
+
+State 57
+
+   17 m_var: ',' . vars
+
+    error  shift, and go to state 29
+    id     shift, and go to state 30
+
+    vars  go to state 88
+
+
+State 58
+
+   15 vars: id m_var .
+
+    $default  reduce using rule 15 (vars)
+
+
+State 59
+
+   10 dc_v: var vars ':' . t_var ';' dc_v
+
+    error    shift, and go to state 89
+    real     shift, and go to state 90
+    integer  shift, and go to state 91
+
+    t_var  go to state 92
+
+
+State 60
+
+   20 dc_p: procedure id . param ';' corpo_p dc_p
+
+    error  shift, and go to state 93
+    '('    shift, and go to state 94
+
+    ';'  reduce using rule 23 (param)
+
+    param  go to state 95
+
+
+State 61
+
+    7 dc_c: t_const id '=' num ';' . dc_c
+
+    error    shift, and go to state 96
+    t_const  shift, and go to state 9
+
+    begin      reduce using rule 8 (dc_c)
+    var        reduce using rule 8 (dc_c)
+    procedure  reduce using rule 8 (dc_c)
+
+    dc_c  go to state 97
+
+
+State 62
+
+   35 l_arg: error ';' .
+
+    $default  reduce using rule 35 (l_arg)
+
+
+State 63
+
+   49 cmd: id ':' '=' . exp
+
+    error  shift, and go to state 98
+    '+'    shift, and go to state 47
+    '-'    shift, and go to state 48
+
+    id           reduce using rule 65 (op_un)
+    subrange     reduce using rule 65 (op_un)
+    numero_int   reduce using rule 65 (op_un)
+    numero_real  reduce using rule 65 (op_un)
+    '('          reduce using rule 65 (op_un)
+
+    exp    go to state 99
+    op_un  go to state 51
+    termo  go to state 52
+
+
+State 64
+
+   38 args: error . ';'
+
+    ';'  shift, and go to state 100
+
+
+State 65
+
+   37 args: id . m_id
+
+    error  shift, and go to state 101
+    ';'    shift, and go to state 102
+
+    ')'  reduce using rule 40 (m_id)
+
+    m_id  go to state 103
+
+
+State 66
+
+   34 l_arg: '(' args . ')'
+
+    ')'  shift, and go to state 104
+
+
+State 67
+
+   51 cmd: begin cmds end .
+
+    $default  reduce using rule 51 (cmd)
+
+
+State 68
+
+   46 cmd: t_read '(' vars . ')'
+
+    ')'  shift, and go to state 105
+
+
+State 69
+
+   47 cmd: t_write '(' vars . ')'
+
+    ')'  shift, and go to state 106
+
+
+State 70
+
+   54 cond: error ';' .
+   62 exp: error ';' .
+   66 op_un: error ';' .
+
+    error     reduce using rule 62 (exp)
+    t_then    reduce using rule 54 (cond)
+    '='       reduce using rule 62 (exp)
+    '<'       reduce using rule 62 (exp)
+    '>'       reduce using rule 62 (exp)
+    $default  reduce using rule 66 (op_un)
+
+
+State 71
+
+   72 termo: error '\n' .
+
+    $default  reduce using rule 72 (termo)
+
+
+State 72
+
+   48 cmd: t_if cond t_then . cmd pfalsa
+
+    error    shift, and go to state 107
+    id       shift, and go to state 22
+    begin    shift, and go to state 23
+    t_read   shift, and go to state 24
+    t_write  shift, and go to state 25
+    t_if     shift, and go to state 26
+
+    cmd  go to state 108
+
+
+State 73
+
+   60 rel: error . ';'
+
+    ';'  shift, and go to state 109
+
+
+State 74
+
+   55 rel: '=' .
+
+    $default  reduce using rule 55 (rel)
+
+
+State 75
+
+   56 rel: '<' . '>'
+   59    | '<' .
+
+    '>'  shift, and go to state 110
+
+    $default  reduce using rule 59 (rel)
+
+
+State 76
+
+   57 rel: '>' . '='
+   58    | '>' .
+
+    '='  shift, and go to state 111
+
+    $default  reduce using rule 58 (rel)
+
+
+State 77
+
+   53 cond: exp rel . exp
+
+    error  shift, and go to state 98
+    '+'    shift, and go to state 47
+    '-'    shift, and go to state 48
+
+    id           reduce using rule 65 (op_un)
+    subrange     reduce using rule 65 (op_un)
+    numero_int   reduce using rule 65 (op_un)
+    numero_real  reduce using rule 65 (op_un)
+    '('          reduce using rule 65 (op_un)
+
+    exp    go to state 112
+    op_un  go to state 51
+    termo  go to state 52
+
+
+State 78
+
+   77 fator: id .
+
+    $default  reduce using rule 77 (fator)
+
+
+State 79
+
+   79 fator: '(' . exp ')'
+
+    error  shift, and go to state 98
+    '+'    shift, and go to state 47
+    '-'    shift, and go to state 48
+
+    id           reduce using rule 65 (op_un)
+    subrange     reduce using rule 65 (op_un)
+    numero_int   reduce using rule 65 (op_un)
+    numero_real  reduce using rule 65 (op_un)
+    '('          reduce using rule 65 (op_un)
+
+    exp    go to state 113
+    op_un  go to state 51
+    termo  go to state 52
+
+
+State 80
+
+   71 termo: op_un fator . m_fator
+
+    '*'  shift, and go to state 114
+    '/'  shift, and go to state 115
+
+    $default  reduce using rule 74 (m_fator)
+
+    m_fator  go to state 116
+    op_mul   go to state 117
+
+
+State 81
+
+   78 fator: num .
+
+    $default  reduce using rule 78 (fator)
+
+
+State 82
+
+   69 op_ad: '+' .
+
+    $default  reduce using rule 69 (op_ad)
+
+
+State 83
+
+   70 op_ad: '-' .
+
+    $default  reduce using rule 70 (op_ad)
+
+
+State 84
+
+   61 exp: termo ou_ter .
+
+    $default  reduce using rule 61 (exp)
+
+
+State 85
+
+   67 ou_ter: op_ad . termo ou_ter
+
+    error  shift, and go to state 118
+    '+'    shift, and go to state 47
+    '-'    shift, and go to state 48
+
+    id           reduce using rule 65 (op_un)
+    subrange     reduce using rule 65 (op_un)
+    numero_int   reduce using rule 65 (op_un)
+    numero_real  reduce using rule 65 (op_un)
+    '('          reduce using rule 65 (op_un)
+
+    op_un  go to state 51
+    termo  go to state 119
+
+
+State 86
+
+   43 cmds: cmd ';' cmds .
+
+    $default  reduce using rule 43 (cmds)
+
+
+State 87
+
+   19 m_var: error ';' .
+
+    $default  reduce using rule 19 (m_var)
+
+
+State 88
+
+   17 m_var: ',' vars .
+
+    $default  reduce using rule 17 (m_var)
+
+
+State 89
+
+   14 t_var: error . ';'
+
+    ';'  shift, and go to state 120
+
+
+State 90
+
+   12 t_var: real .
+
+    $default  reduce using rule 12 (t_var)
+
+
+State 91
+
+   13 t_var: integer .
+
+    $default  reduce using rule 13 (t_var)
+
+
+State 92
+
+   10 dc_v: var vars ':' t_var . ';' dc_v
+
+    ';'  shift, and go to state 121
+
+
+State 93
+
+   24 param: error . ';'
+
+    ';'  shift, and go to state 122
+
+
+State 94
+
+   22 param: '(' . l_par ')'
+
+    error  shift, and go to state 123
+    id     shift, and go to state 30
+
+    vars   go to state 124
+    l_par  go to state 125
+
+
+State 95
+
+   20 dc_p: procedure id param . ';' corpo_p dc_p
+
+    ';'  shift, and go to state 126
+
+
+State 96
+
+    9 dc_c: error . '\n'
+
+    '\n'  shift, and go to state 14
+
+
+State 97
+
+    7 dc_c: t_const id '=' num ';' dc_c .
+
+    $default  reduce using rule 7 (dc_c)
+
+
+State 98
+
+   62 exp: error . ';'
+   66 op_un: error . ';'
+   72 termo: error . '\n'
+
+    ';'   shift, and go to state 127
+    '\n'  shift, and go to state 71
+
+
+State 99
+
+   49 cmd: id ':' '=' exp .
+
+    $default  reduce using rule 49 (cmd)
+
+
+State 100
+
+   38 args: error ';' .
+
+    $default  reduce using rule 38 (args)
+
+
+State 101
+
+   41 m_id: error . ';'
+
+    ';'  shift, and go to state 128
+
+
+State 102
+
+   39 m_id: ';' . args
+
+    error  shift, and go to state 64
+    id     shift, and go to state 65
+
+    args  go to state 129
+
+
+State 103
+
+   37 args: id m_id .
+
+    $default  reduce using rule 37 (args)
+
+
+State 104
+
+   34 l_arg: '(' args ')' .
+
+    $default  reduce using rule 34 (l_arg)
+
+
+State 105
+
+   46 cmd: t_read '(' vars ')' .
+
+    $default  reduce using rule 46 (cmd)
+
+
+State 106
+
+   47 cmd: t_write '(' vars ')' .
+
+    $default  reduce using rule 47 (cmd)
+
+
+State 107
+
+   52 cmd: error . ';'
+
+    ';'  shift, and go to state 130
+
+
+State 108
+
+   48 cmd: t_if cond t_then cmd . pfalsa
+
+    t_else  shift, and go to state 131
+
+    pfalsa  go to state 132
+
+
+State 109
+
+   60 rel: error ';' .
+
+    $default  reduce using rule 60 (rel)
+
+
+State 110
+
+   56 rel: '<' '>' .
+
+    $default  reduce using rule 56 (rel)
+
+
+State 111
+
+   57 rel: '>' '=' .
+
+    $default  reduce using rule 57 (rel)
+
+
+State 112
+
+   53 cond: exp rel exp .
+
+    $default  reduce using rule 53 (cond)
+
+
+State 113
+
+   79 fator: '(' exp . ')'
+
+    ')'  shift, and go to state 133
+
+
+State 114
+
+   75 op_mul: '*' .
+
+    $default  reduce using rule 75 (op_mul)
+
+
+State 115
+
+   76 op_mul: '/' .
+
+    $default  reduce using rule 76 (op_mul)
+
+
+State 116
+
+   71 termo: op_un fator m_fator .
+
+    $default  reduce using rule 71 (termo)
+
+
+State 117
+
+   73 m_fator: op_mul . fator m_fator
+
+    id           shift, and go to state 78
+    subrange     shift, and go to state 34
+    numero_int   shift, and go to state 35
+    numero_real  shift, and go to state 36
+    '('          shift, and go to state 79
+
+    fator  go to state 134
+    num    go to state 81
+
+
+State 118
+
+   66 op_un: error . ';'
+   72 termo: error . '\n'
+
+    ';'   shift, and go to state 135
+    '\n'  shift, and go to state 71
+
+
+State 119
+
+   67 ou_ter: op_ad termo . ou_ter
+
+    '+'  shift, and go to state 82
+    '-'  shift, and go to state 83
+
+    $default  reduce using rule 68 (ou_ter)
+
+    ou_ter  go to state 136
+    op_ad   go to state 85
+
+
+State 120
+
+   14 t_var: error ';' .
+
+    $default  reduce using rule 14 (t_var)
+
+
+State 121
+
+   10 dc_v: var vars ':' t_var ';' . dc_v
+
+    var  shift, and go to state 18
+
+    $default  reduce using rule 11 (dc_v)
+
+    dc_v  go to state 137
+
+
+State 122
+
+   24 param: error ';' .
+
+    $default  reduce using rule 24 (param)
+
+
+State 123
+
+   16 vars: error . ';'
+   26 l_par: error . ';'
+
+    ';'  shift, and go to state 138
+
+
+State 124
+
+   25 l_par: vars . ':' t_var m_par
+
+    ':'  shift, and go to state 139
+
+
+State 125
+
+   22 param: '(' l_par . ')'
+
+    ')'  shift, and go to state 140
+
+
+State 126
+
+   20 dc_p: procedure id param ';' . corpo_p dc_p
+
+    error  shift, and go to state 141
+    var    shift, and go to state 18
+
+    begin  reduce using rule 11 (dc_v)
+
+    dc_v     go to state 142
+    corpo_p  go to state 143
+    dc_loc   go to state 144
+
+
+State 127
+
+   62 exp: error ';' .
+   66 op_un: error ';' .
+
+    t_then    reduce using rule 62 (exp)
+    t_else    reduce using rule 62 (exp)
+    ';'       reduce using rule 62 (exp)
+    ')'       reduce using rule 62 (exp)
+    $default  reduce using rule 66 (op_un)
+
+
+State 128
+
+   41 m_id: error ';' .
+
+    $default  reduce using rule 41 (m_id)
+
+
+State 129
+
+   39 m_id: ';' args .
+
+    $default  reduce using rule 39 (m_id)
+
+
+State 130
+
+   52 cmd: error ';' .
+
+    $default  reduce using rule 52 (cmd)
+
+
+State 131
+
+   42 pfalsa: t_else . cmd
+
+    error    shift, and go to state 107
+    id       shift, and go to state 22
+    begin    shift, and go to state 23
+    t_read   shift, and go to state 24
+    t_write  shift, and go to state 25
+    t_if     shift, and go to state 26
+
+    cmd  go to state 145
+
+
+State 132
+
+   48 cmd: t_if cond t_then cmd pfalsa .
+
+    $default  reduce using rule 48 (cmd)
+
+
+State 133
+
+   79 fator: '(' exp ')' .
+
+    $default  reduce using rule 79 (fator)
+
+
+State 134
+
+   73 m_fator: op_mul fator . m_fator
+
+    '*'  shift, and go to state 114
+    '/'  shift, and go to state 115
+
+    $default  reduce using rule 74 (m_fator)
+
+    m_fator  go to state 146
+    op_mul   go to state 117
+
+
+State 135
+
+   66 op_un: error ';' .
+
+    $default  reduce using rule 66 (op_un)
+
+
+State 136
+
+   67 ou_ter: op_ad termo ou_ter .
+
+    $default  reduce using rule 67 (ou_ter)
+
+
+State 137
+
+   10 dc_v: var vars ':' t_var ';' dc_v .
+
+    $default  reduce using rule 10 (dc_v)
+
+
+State 138
+
+   16 vars: error ';' .
+   26 l_par: error ';' .
+
+    ')'       reduce using rule 26 (l_par)
+    $default  reduce using rule 16 (vars)
+
+
+State 139
+
+   25 l_par: vars ':' . t_var m_par
+
+    error    shift, and go to state 89
+    real     shift, and go to state 90
+    integer  shift, and go to state 91
+
+    t_var  go to state 147
+
+
+State 140
+
+   22 param: '(' l_par ')' .
+
+    $default  reduce using rule 22 (param)
+
+
+State 141
+
+   31 corpo_p: error . ';'
+   33 dc_loc: error . '\n'
+
+    ';'   shift, and go to state 148
+    '\n'  shift, and go to state 149
+
+
+State 142
+
+   32 dc_loc: dc_v .
+
+    $default  reduce using rule 32 (dc_loc)
+
+
+State 143
+
+   20 dc_p: procedure id param ';' corpo_p . dc_p
+
+    procedure  shift, and go to state 32
+
+    $default  reduce using rule 21 (dc_p)
+
+    dc_p  go to state 150
+
+
+State 144
+
+   30 corpo_p: dc_loc . begin cmds end ';'
+
+    begin  shift, and go to state 151
+
+
+State 145
+
+   42 pfalsa: t_else cmd .
+
+    $default  reduce using rule 42 (pfalsa)
+
+
+State 146
+
+   73 m_fator: op_mul fator m_fator .
+
+    $default  reduce using rule 73 (m_fator)
+
+
+State 147
+
+   25 l_par: vars ':' t_var . m_par
+
+    error  shift, and go to state 152
+    ';'    shift, and go to state 153
+
+    ')'  reduce using rule 28 (m_par)
+
+    m_par  go to state 154
+
+
+State 148
+
+   31 corpo_p: error ';' .
+
+    $default  reduce using rule 31 (corpo_p)
+
+
+State 149
+
+   33 dc_loc: error '\n' .
+
+    $default  reduce using rule 33 (dc_loc)
+
+
+State 150
+
+   20 dc_p: procedure id param ';' corpo_p dc_p .
+
+    $default  reduce using rule 20 (dc_p)
+
+
+State 151
+
+   30 corpo_p: dc_loc begin . cmds end ';'
+
+    error    shift, and go to state 21
+    id       shift, and go to state 22
+    begin    shift, and go to state 23
+    t_read   shift, and go to state 24
+    t_write  shift, and go to state 25
+    t_if     shift, and go to state 26
+
+    end  reduce using rule 44 (cmds)
+
+    cmds  go to state 155
+    cmd   go to state 28
+
+
+State 152
+
+   29 m_par: error . ';'
+
+    ';'  shift, and go to state 156
+
+
+State 153
+
+   27 m_par: ';' . l_par
+
+    error  shift, and go to state 123
+    id     shift, and go to state 30
+
+    vars   go to state 124
+    l_par  go to state 157
+
+
+State 154
+
+   25 l_par: vars ':' t_var m_par .
+
+    $default  reduce using rule 25 (l_par)
+
+
+State 155
+
+   30 corpo_p: dc_loc begin cmds . end ';'
+
+    end  shift, and go to state 158
+
+
+State 156
+
+   29 m_par: error ';' .
+
+    $default  reduce using rule 29 (m_par)
+
+
+State 157
+
+   27 m_par: ';' l_par .
+
+    $default  reduce using rule 27 (m_par)
+
+
+State 158
+
+   30 corpo_p: dc_loc begin cmds end . ';'
+
+    ';'  shift, and go to state 159
+
+
+State 159
+
+   30 corpo_p: dc_loc begin cmds end ';' .
+
+    $default  reduce using rule 30 (corpo_p)

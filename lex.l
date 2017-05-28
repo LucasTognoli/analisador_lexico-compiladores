@@ -3,7 +3,7 @@
 %option nounput yylineno
 %option caseless
 %{
-#include "translate.tab.h"  // to get the token types that we return
+#include "y.tab.h"  // to get the token types that we return
 int line_num = 1;
 %}
 %%

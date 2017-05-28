@@ -37,16 +37,16 @@ dc_v	: var vars ':' t_var ';' dc_v
 
 t_var	: real
 	| integer
-	| error ';' {yyerror("t_var	: real\n"); yyerrok; yyclearin;}
+	| error ';' {yyerror("t_var: real\n"); yyerrok; yyclearin;}
 	;
 
 vars	: id m_var
-	| error ';' {yyerror("vars	: id m_var\n"); yyerrok; yyclearin;}
+	| error ';' {yyerror("vars: id m_var\n"); yyerrok; yyclearin;}
 	;
 
 m_var	: ',' vars
 	|
-	| error ';' {yyerror("m_var	: ',' vars\n"); yyerrok;yyclearin;}
+	| error ';' {yyerror("m_var: ',' vars\n"); yyerrok;yyclearin;}
 	;
 
 dc_p	: procedure id param ';' corpo_p dc_p
@@ -55,16 +55,16 @@ dc_p	: procedure id param ';' corpo_p dc_p
 
 param	: '(' l_par ')'
 	|
-	| error ';' {yyerror("param	: '(' l_par ')'\n"); yyerrok; yyclearin;}
+	| error ';' {yyerror("param: '(' l_par ')'\n"); yyerrok; yyclearin;}
 	;
 
 l_par	: vars ':' t_var m_par
-	| error ';' {yyerror("l_par	: vars ':' t_var m_par\n"); yyerrok; yyclearin; }
+	| error ';' {yyerror("l_par: vars ':' t_var m_par\n"); yyerrok; yyclearin; }
 	;
 
 m_par	: ';' l_par
 	|
-	| error ';' {yyerror("m_par	: ';' l_par\n"); yyerrok; yyclearin;}
+	| error ';' {yyerror("m_par: ';' l_par\n"); yyerrok; yyclearin;}
 	;
 
 corpo_p	: dc_loc begin cmds end ';'
@@ -72,21 +72,21 @@ corpo_p	: dc_loc begin cmds end ';'
 	;
 
 dc_loc	: dc_v
-	| error '\n' {yyerror("dc_loc	: dc_v\n") ;yyerrok; yyclearin;}
+	| error '\n' {yyerror("dc_loc: dc_v\n") ;yyerrok; yyclearin;}
 	;
 
 l_arg	: '(' args ')'
-	| error ';' {yyerror("l_arg	: '(' args ')'\n"); yyerrok;yyerrok; yyclearin;}
+	| error ';' {yyerror("l_arg: '(' args ')'\n"); yyerrok;yyerrok; yyclearin;}
 	|
 	;
 
 args	: id m_id
-	| error ';' {yyerror("args	: id m_id\n");yyerrok; yyclearin;}
+	| error ';' {yyerror("args: id m_id\n");yyerrok; yyclearin;}
 	;
 
 m_id	: ';' args
 	|
-	| error ';' {yyerror("m_id	: ';' args\n"); yyerrok; yyclearin;}
+	| error ';' {yyerror("m_id: ';' args\n"); yyerrok; yyclearin;}
 	;
 
 pfalsa	: t_else cmd
@@ -95,7 +95,7 @@ pfalsa	: t_else cmd
 
 cmds	: cmd ';' cmds
 	|
-	| error ';' {yyerror("cmds	: cmd ';' cmds\n"); yyerrok; yyclearin;}
+	| error ';' {yyerror("cmds: cmd ';' cmds\n"); yyerrok; yyclearin;}
 	;
 
 cmd	: t_read '(' vars ')'
@@ -104,11 +104,11 @@ cmd	: t_read '(' vars ')'
 	| id ':' '=' exp
 	| id l_arg
 	| begin cmds end
-	| error ';' {yyerror("CMD\n"); yyerrok; yyclearin; }
+	| error ';' {fprintf(output, "CMD\n"); yyerrok; yyclearin; }
 	;
 
 cond	: exp rel exp
-	| error ';' {yyerror("cond	: exp rel exp\n"); yyerrok; yyclearin;}
+	| error ';' {yyerror("cond: exp rel exp\n"); yyerrok; yyclearin;}
 	;
 
 rel	: '='
@@ -176,7 +176,7 @@ int main() {
 	if (!output) {
 		return -1;
 	}
-	printf("Starting...\n\n");
+	fprintf(output, "Results:\n");
 
 	// open input file
 	FILE *myfile = fopen("sample.pas", "r");
@@ -196,5 +196,6 @@ int main() {
 
 int  yyerror(char *s) {
 	fprintf(stderr,"\n\n\t\t\t\tline: %d - error: %s\n\n\n", line_num, s);
+	fprintf(output,"\nline: %d - %s on rule: ", line_num, s);
 	return 1;
 }
