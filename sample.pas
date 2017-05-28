@@ -1,7 +1,7 @@
 program nome1;
 {exemplo 1}
 var a, a1, b: integer;
-begin
+begin;
 read(a);
 a:= a*2;
 read(b);
