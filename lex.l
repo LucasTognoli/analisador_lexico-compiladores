@@ -4,7 +4,9 @@
 %option caseless
 %{
 #include "y.tab.h"  // to get the token types that we return
+#include <stdio.h>
 int line_num = 1;
+FILE *output;
 %}
 %%
 
@@ -26,6 +28,7 @@ int line_num = 1;
 "real"			{return real;}
 "integer"		{return integer;}
 
+";"			{return semicolon;}
 \n    { ++line_num;}
 
  /* comments */
@@ -68,6 +71,15 @@ int line_num = 1;
 .			{return *yytext;}
 
 %%
+
+int print_log(char *s){
+	output = fopen("teste.txt", "w");
+	if (!output) {
+		return -1;
+	}
+	fprintf(output, "TESTE\n\n");
+	return 0;
+}
 
 int yywrap(void) {
 	return 1;
