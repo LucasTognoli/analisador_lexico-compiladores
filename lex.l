@@ -11,7 +11,7 @@ FILE *output;
 %%
 
  /* variable name error*/
-[0-9]+[_a-zA-Z]+[_a-zA-Z0-9]* {print_log("line %d - Lexical Error: Bad Identifier\n");}
+[0-9]+[_a-zA-Z]+[_a-zA-Z0-9]* {print_log("Linha %d - Erro Lexico: Bad Identifier\n");}
 
  /* reserved words */
 "begin"			{return begin;}
@@ -55,12 +55,12 @@ FILE *output;
  [0-9]*".."[0-9]*	{return subrange;}
 
  /* Error */
-[+|-]*[_a-zA-Z0-9]*[@|$|&|{|}[|]|%|^]*[_a-zA-Z0-9]    {printf("Line %d - Lexical Error: Bad Number\n", line_num);}
-"(*"    {printf("Line %d - Lexical Error\n", line_num);}
-"*)"    {printf("Line %d - Lexical Error\n", line_num);}
-[@|&|{|}[|]|%|^|$]    {printf("Line %d - Lexical Error: Forbidden Symbol\n", line_num);}
-[_a-zA-Z0-9]        {printf("Line %d - Lexical Error\n", line_num);}
-"{"[^}]*            {printf("Line %d - Lexical Error: Comment was not closed\n", line_num);}
+[+|-]*[_a-zA-Z0-9]*[@|$|&|{|}[|]|%|^]*[_a-zA-Z0-9]    {printf("Linha %d - Erro Lexico: Bad Number\n", line_num);}
+"(*"    {printf("Linha %d - Erro Lexico\n", line_num);}
+"*)"    {printf("Linha %d - Erro Lexico\n", line_num);}
+[@|&|{|}[|]|%|^|$]    {printf("Linha %d - Erro Lexico: Forbidden Symbol\n", line_num);}
+[_a-zA-Z0-9]        {printf("Linha %d - Erro Lexico\n", line_num);}
+"{"[^}]*            {printf("Linha %d - Erro Lexico: Comment was not closed\n", line_num);}
 
 
  /* remove white space, new line and tab */
